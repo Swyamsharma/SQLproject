@@ -1,7 +1,8 @@
+<!--- BEGIN: FILEPATH: /home/dexter/Desktop/SQLproject/README.md -->
 ---
 
-<div style="border: 10px solid #ccc; padding: 10px;">
-    <center><h1>just run run.sh </h1></center>
-</div>
+<center><h1>just run run.sh </h1></center>
 
 ---
+
+<!--- END: FILEPATH -->
