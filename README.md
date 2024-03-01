@@ -1,13 +1,20 @@
 <!--- BEGIN: FILEPATH: /home/dexter/Desktop/SQLproject/README.md -->
 ---
 
-run with the following commands:
+for first time , run this 
 
 ```bash
 chmod +x run.sh
 ./run.sh
 ```
+else run this
 
+```bash
+python app_sessions.py
+#or
+gunicorn -w 4 -b 0.0.0.0:5000 app_sessions:app
+```
+Note: If you get comfortable with codes, try renaming the file to app.py
 ---
 
 <!--- END: FILEPATH -->
