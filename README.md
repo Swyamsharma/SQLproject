@@ -7,7 +7,7 @@
 chmod +x run.sh
 ./run.sh
 ```
-else run this
+### else run this
 
 ```bash
 python app_sessions.py
