@@ -1,93 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chat Application</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}">
-<style>
-    #chat-container {
-        width: 400px;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-    }
-    #chat-messages {
-        height: 200px;
-        overflow-y: scroll;
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-    #message-input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-    }
-
-    /* Floating message window styles */
-    #floating-message {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        display: none; /* Hidden by default */
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat and Query</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<body style="background-color: grey;">
 
-<div id="chat-container">
-    <div id="chat-messages"></div>
-    <input type="text" id="message-input" placeholder="Type your message...">
-    <button id="send-button">Send</button>
-</div>
+<body>
+    <h1>Chat and Query</h1>
 
-<!-- Floating message window -->
-<div id="floating-message"></div>
+    <div id="chat">
+        <h2>Chat</h2>
+        <div id="chat-box">
+            <!-- Chat messages will be displayed here -->
+        </div>
+        <input type="text" id="message" placeholder="Type a message..." onkeypress="handleKeyPress(event, 'sendMessage')">
+        <button onclick="sendMessage()">Send</button>
+    </div>
 
-<h1>---------------------------------------------------------------------------------</h1>
-<h1>SQL Query Application</h1>
-    <form action="/query" method="POST">
-        <label for="query">Enter your SQL query:</label><br>
-        <textarea id="query" name="query" rows="4" cols="50"></textarea><br>
-        <input type="submit" value="Submit">
-    </form>
-    {% if result %}
-    <h2>Query Result:</h2>
-    <table border="1">
-        <tr>
-            {% for key in result[0].keys() %}
-            <th>{{ key }}</th>
-            {% endfor %}
-        </tr>
-        {% for row in result %}
-        <tr>
-            {% for value in row.values() %}
-            <td>{{ value }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+    <div id="query">
+        <h2>Query</h2>
+        <textarea id="query-text" placeholder="Enter your SQL query..." onkeypress="handleKeyPress(event, 'sendQuery')"></textarea>
+        <button onclick="sendQuery()">Execute Query</button>
+        <div id="query-result">
+            <!-- Query result will be displayed here -->
+        </div>
+    </div>
 
-    <script src="{{ url_for('static',filename='scripts/script.js') }}"></script>
-    <script>
-        // Function to display floating message window
-        function showFloatingMessage(message) {
-            var floatingMessage = document.getElementById('floating-message');
-            floatingMessage.innerText = message;
-            floatingMessage.style.display = 'block';
-            setTimeout(function() {
-                floatingMessage.style.display = 'none';
-            }, 2000); // 2000 milliseconds = 2 seconds
-        }
-
-        // Example usage: showFloatingMessage("Query successful!");
-    </script>
+    <script src="{{ url_for('static', filename='/js/transmission.js') }}"></script>
 </body>
+
 </html>
