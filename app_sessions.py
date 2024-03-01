@@ -28,6 +28,13 @@ def home():
         return render_template("index.html")
     else:
         return redirect(url_for('login'))
+    
+@app.route("/legacy")
+def legacy():
+    if 'username' in session:
+        return render_template("index_legacy.html")
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

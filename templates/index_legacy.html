@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat and Query</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1>Chat and Query</h1>
+
+    <div id="chat">
+        <h2>Chat</h2>
+        <div id="chat-box">
+            <!-- Chat messages will be displayed here -->
+        </div>
+        <input type="text" id="message" placeholder="Type a message..." onkeypress="handleKeyPress(event, 'sendMessage')">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <div id="query">
+        <h2>Query</h2>
+        <textarea id="query-text" placeholder="Enter your SQL query..." onkeypress="handleKeyPress(event, 'sendQuery')"></textarea>
+        <button onclick="sendQuery()">Execute Query</button>
+        <div id="query-result">
+            <!-- Query result will be displayed here -->
+        </div>
+    </div>
+    <br><br>
+    <a href="/logout">Logout</a>
+    <script src="{{ url_for('static', filename='/js/transmission.js') }}"></script>
+</body>
+
+</html>
