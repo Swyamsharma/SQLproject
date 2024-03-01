@@ -1,7 +1,7 @@
 <!--- BEGIN: FILEPATH: /home/dexter/Desktop/SQLproject/README.md -->
 ---
 
-for first time , run this 
+### for first time , run this 
 
 ```bash
 chmod +x run.sh
@@ -14,7 +14,7 @@ python app_sessions.py
 #or
 gunicorn -w 4 -b 0.0.0.0:5000 app_sessions:app
 ```
-Note: If you get comfortable with codes, try renaming the file to app.py
+### Note: If you get comfortable with codes, try renaming the file to app.py
 ---
 
 <!--- END: FILEPATH -->
