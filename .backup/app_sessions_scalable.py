@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from flask_session import Session  # Import Flask Session
 import mysql.connector
+import redis
 
 import ssl
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
@@ -7,6 +9,13 @@ context.load_cert_chain('fullchain.pem', 'privkey.pem')
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+# Configure Flask Session to use Redis
+app.config['SESSION_TYPE'] = 'redis'
+app.config['SESSION_REDIS'] = redis.Redis(host='localhost', port=6379)
+
+# Initialize Flask Session
+Session(app)
 
 mysql_config = {
     'host': 'localhost',
@@ -28,13 +37,6 @@ def home():
         return render_template("index.html")
     else:
         return redirect(url_for('login'))
-    
-@app.route("/legacy")
-def legacy():
-    if 'username' in session:
-        return render_template("index_legacy.html")
-    else:
-        return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,10 +48,7 @@ def login():
             return redirect(url_for('home'))
         else:
             return render_template('login.html', error='Invalid username or password')
-    if 'username' in session:
-        return redirect(url_for('home'))
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
 @app.route('/logout')
 def logout():
@@ -87,4 +86,4 @@ def execute_query(query):
     return result
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True,ssl_context=context)
+    app.run(host="0.0.0.0", debug=True, ssl_context=context)
