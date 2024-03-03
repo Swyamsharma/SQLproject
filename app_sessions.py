@@ -28,7 +28,7 @@ def home():
         return render_template("index.html")
     else:
         return redirect(url_for('login'))
-    
+
 @app.route("/legacy")
 def legacy():
     if 'username' in session:
