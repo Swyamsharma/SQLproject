@@ -4,18 +4,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Your existing styles here */
+        .gradient-bg {
+            background: linear-gradient(45deg, #4F3A82, #185ADB, #02AAB0, #00CDAC, #7D3C98, #8E44AD, #EB9532, #F62459, #FFA800, #FF6F61);
+            background-size: 1500% 300%; /* Wider: 5 times */
+            animation: gradient 150s ease infinite; /* Half speed */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: cardFadeIn 1s ease-out;
+        }
+
+        @keyframes cardFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .input-field {
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #4F3A82;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 58, 130, 0.4);
+        }
+
+        .forgot-password {
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #4F3A82;
+        }
+
+        .submit-btn {
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #185ADB;
+        }
+        .floating-menu {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .floating-menu.show {
+            display: block;
+        }
+
+        .floating-menu:hover {
+            transform: translateY(-5px);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+    </style>
 </head>
-<body>
-    <h1>Login</h1>
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
-    <form action="{{ url_for('login') }}" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Login">
-    </form>
+<body class="gradient-bg h-screen flex justify-center items-center">
+    <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white card">
+        <div class="px-6 py-8">
+            <div class="text-center font-bold text-3xl mb-6">Login</div>
+            {% if error %}
+                <p class="text-red-500">{{ error }}</p>
+            {% endif %}
+            <form action="{{ url_for('login') }}" method="post">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username:</label>
+                    <input class="input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="username" name="username" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password:</label>
+                    <input class="input-field shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" type="password" id="password" name="password" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <input class="submit-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" value="Login">
+                    <a class="forgot-password inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Button to toggle floating menu -->
+    <button id="toggleFloatingMenu" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-5 right-5">Show Credentials</button>
+
+    <!-- Floating menu -->
+    <div id="floatingMenu" class="floating-menu">
+        <button id="closeFloatingMenu" class="close-btn bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline">X</button>
+        <h3 class="text-lg font-bold mb-2">Dummy Login Credentials&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+        <table class="table-auto">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Username</th>
+                    <th class="px-4 py-2">Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border px-4 py-2">sridhar</td>
+                    <td class="border px-4 py-2">sridhar</td>
+                </tr>
+                <tr>
+                    <td class="border px-4 py-2">swyam</td>
+                    <td class="border px-4 py-2">swyam</td>
+                </tr>
+                <tr>
+                    <td class="border px-4 py-2">shaurya</td>
+                    <td class="border px-4 py-2">shaurya</td>
+                </tr>
+                <!-- Add more dummy credentials as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('toggleFloatingMenu').addEventListener('click', function() {
+            document.getElementById('floatingMenu').classList.toggle('show');
+        });
+
+        document.getElementById('closeFloatingMenu').addEventListener('click', function() {
+            document.getElementById('floatingMenu').classList.remove('show');
+        });
+    </script>
 </body>
 </html>
