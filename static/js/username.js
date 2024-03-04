@@ -24,6 +24,11 @@ function loadContent(url, targetId) {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 document.getElementById(targetId).innerHTML = xhr.responseText;
+                updateCharts();
+                updateDash();
+                reloadSelect2();
+                reloadFile_Upload();
+                reloadTypeahead();
             } else {
                 console.error('Failed to load content: ' + xhr.status);
             }
@@ -31,4 +36,22 @@ function loadContent(url, targetId) {
     };
     xhr.open('GET', url, true);
     xhr.send();
+}
+
+function updateContent(x,y) {
+  // Fetch data from the server
+  fetch(x)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text();
+    })
+    .then(data => {
+      // Update the content of the div container with the fetched data
+      document.getElementById(y).innerHTML = data;
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
 }
