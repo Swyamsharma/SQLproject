@@ -79,7 +79,7 @@ function librarytable() {
   }
 
 
-  function fetchtable(x, y) {
+  function fetchtable(x, y, z) {
     var query = y;
     $(x).html('');
   
@@ -87,7 +87,7 @@ function librarytable() {
       var result = response.result;
   
       if (result && result.length > 0) {
-        var table = $('<table class="table table-bordered table-contextual">').appendTo('#query-result');
+        var table = $('<table class="'+z+'">').appendTo('#query-result');
         var thead = $('<thead>').appendTo(table);
         var theadTr = $('<tr>').appendTo(thead);
   
@@ -116,10 +116,14 @@ function librarytable() {
             emptyTable: "No results found."
           },
           createdRow: function (row, data, dataIndex) {
+            if (y=='select * from books')
             if (data.available === 1) {
               $(row).addClass('table-success');
             } else {
               $(row).addClass('table-danger');
+            }
+            else{
+                $(row).addClass('table-dark');
             }
           }
         });
