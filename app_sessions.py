@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
-from commons import authenticate, execute_query, logged_in_users
+from sqlQuery import authenticate, execute_query, logged_in_users, mysql_auth, mysql_library
 
 import ssl
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
@@ -52,8 +52,6 @@ def login():
     else:
         return render_template('login.html')
 
-
-
 @app.route('/logout')
 def logout():
     if 'username' in session:
@@ -79,6 +77,14 @@ def query():
         return jsonify(error='Unauthorized'), 401
     query = request.form['query']
     result = execute_query(query)
+    return jsonify(result=result)
+
+@app.route('/querylib', methods=['POST'])
+def querylib():
+    if 'username' not in session:
+        return jsonify(error='Unauthorized'), 401
+    query = request.form['query']
+    result = execute_query(query,mysql_library)
     return jsonify(result=result)
 
 @app.route('/get_username')

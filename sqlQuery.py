@@ -1,18 +1,24 @@
 import mysql.connector
+from datetime import datetime, timedelta
 
-mysql_config = {
+mysql_auth = {
     'host': 'localhost',
     'user': 'shaurya',
     'password': '222w',
     'database': 'test'
 }
-
+mysql_library = {
+    'host': 'localhost',
+    'user': 'shaurya',
+    'password': '222w',
+    'database': 'library_db'
+}
 logged_in_users = set()
 
 # Authenticate function to check user credentials against the database
 def authenticate(username, password):
     try:
-        db_connection = mysql.connector.connect(**mysql_config)
+        db_connection = mysql.connector.connect(**mysql_auth)
         cursor = db_connection.cursor()
         query = "SELECT * FROM users WHERE username = %s AND password = %s"
         cursor.execute(query, (username, password))
@@ -30,9 +36,9 @@ def authenticate(username, password):
         if 'db_connection' in locals():
             db_connection.close()
 
-def execute_query(query):
+def execute_query(query,config=mysql_auth):
     try:
-        connection = mysql.connector.connect(**mysql_config)
+        connection = mysql.connector.connect(**config)
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query)
         result = cursor.fetchall()
