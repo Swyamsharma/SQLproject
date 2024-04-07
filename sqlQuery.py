@@ -42,6 +42,8 @@ def execute_query(query,config=mysql_auth):
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query)
         result = cursor.fetchall()
+        print(result)
+        connection.commit()
     except mysql.connector.Error as error:
         print("Error executing query:", error)
         result = None

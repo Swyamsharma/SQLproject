@@ -27,7 +27,7 @@
   <link rel="shortcut icon" href="static/assets/images/favicon.png" />
 </head>
 
-<body>
+<body class="sidebar-icon-only">
   <div class="container-scroller">
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -48,14 +48,32 @@
           </a>
         </li>
         <li class="nav-item menu-items">
-          <a class="nav-link" href="#" onclick="loadContent('static/pages/stock/libstock.html', 'main_body')">
+          <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
             <span class="menu-icon">
-              <i class="mdi mdi-speedometer"></i>
+              <i class="mdi mdi-library-books"></i>
             </span>
-            <span class="menu-title">Stock</span>
+            <span class="menu-title">Library</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="ui-basic">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"> <a class="nav-link" href="#"
+                  onclick="loadContent('static/pages/library/libstock.html', 'main_body')">Borrow/Return</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#"
+                  onclick="loadContent('static/pages/library/books.html','main_body')">Add/Remove Books</a></li>
+              <li class="nav-item"> <a class="nav-link" href="#"
+                  onclick="loadContent('static/pages/library/members.html','main_body')">Add/Remove Members</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="#" onclick="loadContent('static/pages/attendance/att.html','main_body')">
+            <span class="menu-icon">
+              <i class="mdi mdi-chart-bar"></i>
+            </span>
+            <span class="menu-title">Attendance Control</span>
           </a>
         </li>
-
         <li class="nav-item menu-items">
           <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
             <span class="menu-icon">
@@ -205,7 +223,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                 <div class="navbar-profile">
-                  <img class="img-xs rounded-circle" src="static/assets/images/faces/face15.jpg" alt="">
+                  <img class="img-xs rounded-circle" src="static/assets/images/faces/active.png" alt="">
                   <p id="username-container" class="mb-0 d-none d-sm-block navbar-profile-name">Admin</p>
                   <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                 </div>
@@ -245,13 +263,6 @@
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com
-              2020</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a
-                href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin
-                templates</a> from Bootstrapdash.com</span>
-          </div>
         </footer>
         <!-- partial -->
       </div>
@@ -290,11 +301,40 @@
   <script src="static/js/query.js"></script>
   <script src="static/js/transmission.js"></script>
   <!-- End custom js for this page -->
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-    <!-- DataTables JS -->
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+  <!-- DataTables JS -->
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <style>
+    /* Search box */
+    .dataTables_wrapper .dataTables_filter input[type="search"] {
+      background-color: #333;
+      /* Background color */
+      color: #fff;
+      /* Text color */
+      border-color: #555;
+      /* Border color */
+    }
 
+    /* Pagination */
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      background-color: #555 !important;
+      /* Background color */
+      border-color: #555 !important;
+      /* Border color */
+    }
+
+    /* Other text elements */
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate .paginate_button,
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter label {
+      color: #fff !important;
+      /* Text color */
+    }
+  </style>
+  
 </body>
 
 </html>

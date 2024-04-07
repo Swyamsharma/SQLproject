@@ -1,0 +1,70 @@
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+            <h4 class="card-title">Library Management</h4>
+            <button type="button" class="btn btn-primary"
+                onclick="fetchtable('#query-result','select * from books','table table-bordered table-contextual')">Refresh
+                library</button>
+            <button type="button" class="btn btn-primary"
+                onclick="fetchtable('#query-result','select * from members','table table-bordered table-contextual')">Refresh
+                Members</button>
+            <button type="button" class="btn btn-primary"
+                onclick="fetchtable('#query-result','SELECT borrowings.*, members.contact FROM borrowings JOIN members ON borrowings.member_id = members.member_id','table table-bordered table-contextual')">Refresh
+                borrowings</button>
+          
+            <div id="query-result" class="table-responsive">
+                <!-- Table will be created here -->
+            </div>
+            <!-- <div class="form-group">
+          <label for="query-text">Enter Query</label>
+          <input type="text" class="form-control" id="query-text" placeholder="Enter query">
+        </div> -->
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">borrow book</h4>
+                <p class="card-description"> use book ID to refer to book, wrong book ID or unavailability will cause
+                    this to fail</p>
+                <div class="form-group">
+                    <label for="BOOKID">Book ID</label>
+                    <input type="text" class="form-control" id="book-id" placeholder="Book ID">
+                </div>
+                <div class="form-group">
+                    <label for="MEMID">Member ID</label>
+                    <input type="text" class="form-control" id="member-id" placeholder="Member ID">
+                </div>
+                <div class="form-group">
+                    <label for="DURATION">loan period</label>
+                    <input type="text" class="form-control" id="loan-interval" placeholder="interval in days">
+                </div>
+                <button class="btn btn-primary" onclick="borrowBook()">Submit</button>
+                <button class="btn btn-dark">Cancel</button>
+                <div id="borrow-result"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">return book</h4>
+                <p class="card-description">use to return certain book borrowed by certain member</p>
+                <div class="form-group">
+                    <label for="BOOKID">Book ID</label>
+                    <input type="text" class="form-control" id="rbook-id" placeholder="Book ID">
+                </div>
+                <div class="form-group">
+                    <label for="MEMID">Member ID</label>
+                    <input type="text" class="form-control" id="rmember-id" placeholder="Member ID">
+                </div>
+                <button class="btn btn-primary" onclick="returnBook()">Submit</button>
+                <button class="btn btn-dark">Cancel</button>
+                <div id="return-result"></div>
+            </div>
+        </div>
+    </div>

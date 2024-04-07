@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Student Page</title>
+  <link rel="stylesheet" href="static/studentassets/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- Navigation -->
+<nav id="slide-menu">
+
+		<ul>
+			<li class="studentinfo"><a href="#">{{ fname }} {{ lname }}</a></li>
+			<!-- <li class="sep timeline">Timeline</li> -->
+			<!-- <li class="events">Events</li> -->
+			<li class="sep openattendances">Attendance</li>
+			<li class="sep complaints"><a href="#">complaints</a></li>
+			<li class="registercomplaint"><a href="#">Register Complaint</a></li>
+			<li class="news"><a href="#">News</a></li>
+			<li class="reports"><a href="#">Reports</a></li>
+			<li class="sep settings">Settings</li>
+			<li class="logout"><a href="{{ url_for('slogout') }}">Logout</a></li>
+		</ul>
+</nav>
+<!-- Content panel -->
+<div id="student_id" style="display: none;">{{ identity }}</div>
+<div id="content">
+	<br>
+	<div class="menu-trigger"></div>
+	<div id="ccc"><h1>iOS style sliding menu</h1>
+	<p>Here's an easy way to create an iOS style, side sliding menu.</p>
+	<h1>Login Successful</h1>
+    <p>Welcome, {{ fname }} {{ lname }} !</p>
+	<div id="news-content"></div>
+	<div id="reports-content"></div></div>
+</div>
+<!-- partial -->
+  <script  src="static/studentassets/script.js"></script>
+
+</body>
+</html>

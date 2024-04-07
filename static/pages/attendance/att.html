@@ -1,0 +1,51 @@
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+            <h4 class="card-title">Attendance Management</h4>
+            <button type="button" class="btn btn-primary"
+                onclick="fetchatt('#query-result','select * from attendance_list','table table-bordered table-contextual')">Refresh
+                Open Attendance</button>
+            <button type="button" class="btn btn-primary"
+                onclick="fetchatt('#query-result','select * from student_attendance','table table-bordered table-contextual')">Refresh
+                Attendance</button>
+            <div id="query-result" class="table-responsive">
+                <!-- Table will be created here -->
+
+            </div>
+            <!-- <div class="form-group">
+          <label for="query-text">Enter Query</label>
+          <input type="text" class="form-control" id="query-text" placeholder="Enter query">
+        </div> -->
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Create Open Attendance</h4>
+                <div class="form-group">
+                    <label for="subject-name">Subject Name</label>
+                    <input type="text" class="form-control" id="subject-name" placeholder="Subject Name">
+                </div>
+                <button class="btn btn-primary" onclick="createOpenAttendance()">Create Attendance</button>
+                <div id="attendance-result"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Remove attendance</h4>
+                <div class="form-group">
+                    <label for="attendance-id">Attendance ID</label>
+                    <input type="text" class="form-control" id="attendance-id" placeholder="Attendance ID">
+                </div>
+                <button class="btn btn-primary" onclick="removeAttendance()">Remove Attendance</button>
+                <div id="aid-result"></div>
+            </div>
+        </div>        
+    </div>
+</div>

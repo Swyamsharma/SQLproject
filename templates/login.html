@@ -57,36 +57,76 @@ form button:hover {
   background-color: #f5f7f900;
   border-radius: 3px;
   border: 5px solid #00ff9d;
+}
+#toggle-login {
+  appearance: none;
+  outline: 0;
+  background-color: rgba(255, 255, 255, 0.0);
+  border: 0;
+  padding: 10px 15px;
+  color: #00ff9d;
+  border-radius: 3px;
+  width: 250px;
+  cursor: pointer;
+  font-size: 18px;
+  transition-duration: 0.25s;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+#toggle-login:hover {
+  background-color: #f5f7f900;
+  border-radius: 3px;
+  border: 5px solid #00ff9d;
 }</style>
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-<div id='stars'></div>
-<div id='stars2'></div>
-<div id='stars3'></div>
-<div id='title'>
+  <!-- partial:index.partial.html -->
+  <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
 
-  <!-- <div class="container"> -->
+  <div id='stars'></div>
+  <div id='stars2'></div>
+  <div id='stars3'></div>
 
-  
-		<form action="{{ url_for('login') }}" method="post">
-			<input type="text" placeholder="Username" id="username" name="username" required>
-			<input type="password" placeholder="Password" id="password" name="password" required>
-			<button type="submit" id="login-button">Login</button>
-		</form>
+  <div id='title'>
+    <form action="{{ url_for('login') }}" method="post" id="login-form" style="display: none;">
+      <input type="text" placeholder="Username" id="username" name="username" required>
+      <input type="password" placeholder="Password" id="password" name="password" required>
+      <button type="submit" id="login-button">Admin Login</button>
+    </form>
+
+    <form action="{{ url_for('slogin') }}" method="post" id="slogin-form">
+      <input type="text" placeholder="Username" id="susername" name="username" required>
+      <input type="password" placeholder="Password" id="spassword" name="password" required>
+      <button type="submit" id="slogin-button">Student Login</button>
+    </form>
+    <button id="toggle-login">click for admin login</button>
+
     {% if error %}
-  <span>{{ error }}</span>
-  {% else %}
-  <span>Enter your credentials to login</span>
-  {% endif %}
-	<!-- </div> -->
+      <span>{{ error }}</span>
+    {% else %}
+      <span>Enter your credentials to login</span>
+    {% endif %}
 
+    
+  </div>
+  <!-- partial -->
 
+  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="static/js/script2.js"></script>
 
-</div>
-<!-- partial -->
-  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="static/js/script2.js"></script>
-
+  <script>
+    $(document).ready(function() {
+      $('#toggle-login').click(function() {
+        $('#login-form').toggle();
+        $('#slogin-form').toggle();
+        $('#toggle-login').text(function(i, text) {
+          return text === 'are you a student?' ? 'click for admin login' : 'are you a student?';
+        });
+      });
+    });
+  </script>
 </body>
 </html>

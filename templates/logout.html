@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logout</title>
+</head>
+<body>
+    {% if message %}
+        <h1>{{ message }}</h1>
+    {% elif error %}
+        <h1 style="color: red;">{{ error }}</h1>
+    {% endif %}
+    <a href="{{ url_for('login') }}">Go to Login</a>
+</body>
+</html>

@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from sqlQuery import authenticate, execute_query, logged_in_users, mysql_auth, mysql_library
+from students_api import students_api,st_db
+from datetime import timedelta
 
 import ssl
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
@@ -7,6 +9,7 @@ context.load_cert_chain('fullchain.pem', 'privkey.pem')
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app = students_api(app)
 
 
 
@@ -58,10 +61,12 @@ def logout():
         username = session['username']
         session.pop('username', None)
         try:
-            logged_in_users.remove(username)
-        finally:
-            return redirect(url_for('login'))
-    return redirect(url_for('login'))
+            if(username in logged_in_users):
+                logged_in_users.remove(username)
+            return render_template('logout.html', message=f"{username} logged out successfully")
+        except ValueError:
+            return render_template('logout.html', error="You are not logged in")
+    return render_template('logout.html', error="You are not logged in")
 
 
 @app.route('/chat', methods=['POST'])
@@ -85,6 +90,23 @@ def querylib():
         return jsonify(error='Unauthorized'), 401
     query = request.form['query']
     result = execute_query(query,mysql_library)
+    return jsonify(result=result)
+
+@app.route('/queryatt', methods=['POST'])
+def queryatt():
+    if 'username' not in session:
+        return jsonify(error='Unauthorized'), 401
+    
+    query = request.form['query']
+    result = execute_query(query, st_db)
+
+    # Convert timedelta objects to string representations
+    for row in result:
+        if 'start_time' in row:
+            row['start_time'] = str(row['start_time'])
+        if 'end_time' in row:
+            row['end_time'] = str(row['end_time'])
+
     return jsonify(result=result)
 
 @app.route('/get_username')

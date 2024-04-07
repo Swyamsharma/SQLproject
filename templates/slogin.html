@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f44336, #e91e63);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .login-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #e91e63;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+    
+    input[type="text"], input[type="password"] {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    
+    input[type="text"]:focus, input[type="password"]:focus {
+      border-color: #e91e63;
+      outline: none;
+    }
+    
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    button:hover {
+      background-color: #c2185b;
+    }
+    
+    .error-message {
+      color: #f44336;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Student Login</h1>
+    <form action="{{ url_for('slogin') }}" method="post">
+      <input type="text" placeholder="Username" id="username" name="username" required>
+      <input type="password" placeholder="Password" id="password" name="password" required>
+      <button type="submit" id="login-button">Student Login</button>
+    </form>
+    {% if error %}
+    <div class="error-message">{{ error }}</div>
+    {% else %}
+    <p style="text-align: center; margin-top: 20px;">This is an alternate website for mobile login support.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
