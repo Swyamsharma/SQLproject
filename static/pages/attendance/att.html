@@ -9,6 +9,9 @@
             <button type="button" class="btn btn-primary"
                 onclick="fetchatt('#query-result','select * from student_attendance','table table-bordered table-contextual')">Refresh
                 Attendance</button>
+            <button type="button" class="btn btn-primary"
+                onclick="fetchatt('#query-result','select * from students','table table-bordered table-contextual')">Refresh
+                Student list</button>
             <div id="query-result" class="table-responsive">
                 <!-- Table will be created here -->
 
@@ -48,4 +51,22 @@
             </div>
         </div>        
     </div>
-</div>
+</div><div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Get Student Attendance</h4>
+          <div class="form-group">
+            <label for="student-id">Student ID</label>
+            <input type="text" class="form-control" id="student-id21" placeholder="Enter Student ID">
+          </div>
+          <div class="form-group">
+            <label for="subject-name">Subject Name</label>
+            <input type="text" class="form-control" id="subject-name21" placeholder="Enter Subject Name">
+          </div>
+          <button class="btn btn-primary" onclick="getStudentAttendance()">Get Attendance</button>
+          <div id="student-attendance-result"></div>
+        </div>
+      </div>
+    </div>
+  </div>

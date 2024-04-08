@@ -3,15 +3,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 from datetime import datetime, timedelta, date
 import json
+from sqlQuery import st_db,last_attendance_time
 
 
 # MySQL connection details
-st_db = {
-    'host': 'localhost',
-    'user': 'shaurya',
-    'password': '222w',
-    'database': 'student_db'
-}
+
 def students_api(app):
     @app.route('/slogin', methods=['GET', 'POST'])
     def slogin():
@@ -76,6 +72,8 @@ def students_api(app):
                 print(result)
                 if result:
                     firstname, lastname, id  = result
+                client_ip = request.remote_addr
+                print(client_ip)
                 return render_template('studenthome.html', username=session['user_id'], fname=firstname, lname=lastname, identity= id)
             else:
                 return redirect(url_for('slogin'))
@@ -214,11 +212,6 @@ def students_api(app):
                 cursor.close()
             if 'conn' in locals():
                 conn.close()
-
-
-    from datetime import datetime, date
-    import json
-
     @app.route('/open_attendances', methods=['GET'])
     def list_open_attendances():
         if 'user_id' not in session:
@@ -270,14 +263,7 @@ def students_api(app):
                 cursor.close()
             if 'conn' in locals():
                 conn.close()
-
-
-    from datetime import datetime, timedelta
-    from flask import request
-
-    # Global variable to store the last time attendance was marked
-    last_attendance_time = {}
-
+    
     @app.route('/mark_attendance/<int:attendance_id>/<secret_code>/<status>', methods=['POST'])
     def mark_attendance(attendance_id, secret_code, status):
         if 'user_id' not in session:
@@ -302,8 +288,8 @@ def students_api(app):
 
             # Get the client's IP address
             client_ip = request.remote_addr
-            if client_ip in last_attendance_time and (datetime.now() - last_attendance_time[client_ip]) < timedelta(minutes=30):
-                return jsonify({'error': 'Attendance can only be marked once every 30 minutes'}), 429
+            if client_ip in last_attendance_time and (datetime.now() - last_attendance_time[client_ip]) < timedelta(minutes=15):
+                return jsonify({'error': 'Attendance can only be marked once every 15 minutes'}), 429
 
             if existing_record:
                 # Update the existing record
@@ -324,4 +310,81 @@ def students_api(app):
                 cursor.close()
             if 'conn' in locals():
                 conn.close()
+    @app.route('/get_complaint_data', methods=['GET'])
+    def get_complaint_data():
+        if 'username' not in session:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        try:
+            conn = mysql.connector.connect(**st_db)
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute(
+                "SELECT complaint_id, complaint_title, complaint_description, complaint_date, status "
+                "FROM complaints "
+                "WHERE student_id IN (SELECT student_id FROM students)"
+                "ORDER BY complaint_date desc")
+            
+            complaints = cursor.fetchall()
+            print(complaints)
+            return jsonify(complaints), 200
+        except mysql.connector.Error as err:
+            return jsonify({'error': str(err)}), 500
+        finally:
+            if 'cursor' in locals():
+                cursor.close()
+            if 'conn' in locals():
+                conn.close()
+
+    @app.route('/update_complaint_status', methods=['POST'])
+    def update_complaint_status():
+        if 'username' not in session:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        complaint_id = request.json['complaint_id']
+        status = request.json['status']
+
+        try:
+            conn = mysql.connector.connect(**st_db)
+            cursor = conn.cursor()
+            cursor.execute(
+                "UPDATE complaints SET status = %s WHERE complaint_id = %s",
+                (status, complaint_id)
+            )
+            conn.commit()
+            return jsonify({'message': 'Complaint status updated successfully'})
+        except mysql.connector.Error as err:
+            return jsonify({'error': str(err)}), 500
+        finally:
+            if 'cursor' in locals():
+                cursor.close()
+            if 'conn' in locals():
+                conn.close()
+
+    @app.route('/delete_complaint/<int:complaint_id>', methods=['DELETE'])
+    def delete_complaint(complaint_id):
+        if 'username' not in session:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+        try:
+            conn = mysql.connector.connect(**st_db)
+            cursor = conn.cursor()
+            print(complaint_id)
+            cursor.execute(
+                "DELETE FROM complaints WHERE complaint_id = %s",
+                (complaint_id,)
+            )
+            print(cursor.rowcount)
+            conn.commit()
+            if cursor.rowcount == 0:
+                return jsonify({'error': 'Complaint not found'}), 404
+            else:
+                return jsonify({'message': 'Complaint deleted successfully'})
+        except mysql.connector.Error as err:
+            return jsonify({'error': str(err)}), 500
+        finally:
+            if 'cursor' in locals():
+                cursor.close()
+            if 'conn' in locals():
+                conn.close()
+
     return app

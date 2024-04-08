@@ -75,14 +75,11 @@ function loadComplaints() {
                     case 'resolved':
                         titleColorClass = 'text-green-600'; // Green color for 'resolved' status
                         break;
-                    case 'in_progress':
-                        titleColorClass = 'text-yellow-600'; // Yellow color for 'in_progress' status
-                        break;
                     case 'open':
                         titleColorClass = 'text-red-600'; // Red color for 'open' status
                         break;
                     default:
-                        titleColorClass = 'text-black'; // Default color for other statuses
+                        titleColorClass = 'text-yellow-600'; // Default color for other statuses
                         break;
                 }
                 complaintsContent += `
@@ -163,20 +160,20 @@ function loadStudentInfo() {
 // Function to load register complaint form
 function loadRegisterForm() {
     const formContent = `
-        <h2 class="text-2xl font-bold mb-4">Register Complaint</h2>
-        <form id="complaintForm">
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="complaintTitle">Complaint Title</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="complaintTitle" type="text" placeholder="Enter complaint title, short and concise" required>
-            </div>
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="complaintDescription">Complaint Description</label>
-                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="complaintDescription" placeholder="25-150 words, spamming will cause denial from this service" required></textarea>
-            </div>
-            <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="registerComplaint()">Submit</button>
-            </div>
-        </form>
+    <h2 class="text-2xl font-bold mb-4">Register Complaint</h2>
+    <form id="complaintForm">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="complaintTitle">Complaint Title</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="complaintTitle" type="text" placeholder="Enter complaint title, short and concise" required>
+        </div>
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="complaintDescription">Complaint Description</label>
+            <textarea class="resize-y shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="complaintDescription" placeholder="25-150 words, spamming will cause denial from this service" style="min-height: 100px;" required></textarea>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="registerComplaint()">Submit</button>
+        </div>
+    </form>
     `;
 
     // Display the form in the designated element
@@ -186,6 +183,10 @@ function loadRegisterForm() {
 function registerComplaint() {
 	const complaintTitle = document.getElementById('complaintTitle').value;
 	const complaintDescription = document.getElementById('complaintDescription').value;
+    if (complaintTitle.length < 5 || complaintTitle.length > 100) {
+        alert('Complaint title must be between 5 and 100 characters');
+        return;
+    }
 	if (complaintDescription.split(' ').length < 25 || complaintDescription.split(' ').length > 150) {
 		alert('Complaint description must be between 25 and 150 words');
 		return;

@@ -512,3 +512,155 @@ function fetchatt(x, y, z) {
     }
   });
 }
+function getStudentAttendance() {
+  // Get the student ID and subject name from the form
+  var studentId = document.getElementById("student-id21").value;
+  var subjectName = document.getElementById("subject-name21").value;
+  if (!studentId || !subjectName) {
+    $('#student-attendance-result').html('<p class="text-danger">Please enter both student ID and subject name.</p>');
+    return;
+  }
+
+  // Construct the SQL query
+  var query = "SELECT sa.attendance_status, al.subject, al.attendance_date, al.start_time, al.end_time " +
+              "FROM student_attendance sa " +
+              "JOIN attendance_list al ON sa.attendance_id = al.attendance_id " +
+              "WHERE sa.student_id = " + studentId + " AND al.subject = '" + subjectName + "'";
+
+  // Call the fetchatt function to display the results
+  fetchatt("#query-result", query, "table table-bordered table-contextual");
+}
+
+
+function loadConten(url, targetId) {
+  $.ajax({
+      url: url,
+      type: 'GET',
+      success: function(data) {
+          $('#' + targetId).html('');
+          $('#' + targetId).html(data);
+          initializeComplaintControlPage();
+      },
+      error: function(xhr, status, error) {
+          console.error('Error loading content: ' + error);
+      }
+  });
+}
+
+function initializeComplaintControlPage() {
+  // Remove existing event listeners
+  $(document).off('click', '.update-btn');
+  $(document).off('click', '.delete-btn');
+
+  // Add event listeners for the update and delete buttons
+  $(document).on('click', '.update-btn', function() {
+    var complaintId = $(this).data("id");
+    var status = $(`[data-id="${complaintId}"] option:selected`).val();
+    updateComplaintStatus(complaintId, status);
+  });
+
+  $(document).on('click', '.delete-btn', function() {
+    var complaintId = $(this).data("id");
+    deleteComplaint(complaintId);
+  });
+
+  // Load complaint data and populate the table
+  loadComplaintData();
+}
+
+function loadComplaintData() {
+  $.ajax({
+      url: "/get_complaint_data",
+      type: "GET",
+      success: function(data) {
+          var tableBody = $(".table tbody");
+          tableBody.empty();
+
+          $.each(data, function(index, complaint) {
+              var row = $("<tr></tr>");
+              row.append($("<td></td>").text(complaint.complaint_id));
+              
+              // Apply color class based on status
+              var titleClass = "";
+              switch(complaint.status) {
+                  case 'resolved':
+                      titleClass = 'text-success';
+                      break;
+                  case 'in progress':
+                      titleClass = 'text-warning';
+                      break;
+                  case 'open':
+                      titleClass = 'text-danger';
+                      break;
+                  default:
+                      titleClass = '';
+              }
+              
+              // Add title with color class
+              var titleTd = $("<td></td>").addClass(titleClass).text(complaint.complaint_title);
+              row.append(titleTd);
+              
+              // Split description into words and add <br> every 15 words
+              var words = complaint.complaint_description.split(/\s+/);
+              var description = "";
+              for (var i = 0; i < words.length; i++) {
+                  description += words[i] + " ";
+                  if ((i + 1) % 15 === 0) {
+                      description += "<br>";
+                  }
+              }
+              
+              row.append($("<td></td>").html(description));
+              row.append($("<td></td>").text(complaint.complaint_date));
+              row.append($("<td></td>").html(
+                  `<select class="form-control status-select" data-id="${complaint.complaint_id}">
+                      <option ${complaint.status === 'open' ? 'selected' : ''}>open</option>
+                      <option ${complaint.status === 'in progress' ? 'selected' : ''}>in progress</option>
+                      <option ${complaint.status === 'resolved' ? 'selected' : ''}>resolved</option>
+                  </select>`
+              ));
+              row.append($("<td></td>").html(
+                  `<button class="btn btn-primary update-btn" data-id="${complaint.complaint_id}">Update</button>
+                  <button class="btn btn-danger delete-btn" data-id="${complaint.complaint_id}">Delete</button>`
+              ));
+              tableBody.append(row);
+          });
+      },
+      error: function(xhr, status, error) {
+          console.error("Error loading complaint data: " + error);
+      }
+  });
+}
+
+
+
+function updateComplaintStatus(complaintId, status) {
+  $.ajax({
+      url: "/update_complaint_status",
+      type: "POST",
+      data: JSON.stringify({ complaint_id: complaintId, status: status }),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data) {
+          alert(data.message);
+          loadConten('static/pages/CControl/complaint_control.html', 'main_body');
+      },
+      error: function(xhr, status, error) {
+          alert("Error: " + error);
+      }
+  });
+}
+
+function deleteComplaint(complaintId) {
+  $.ajax({
+      url: "/delete_complaint/" + complaintId,
+      type: "DELETE",
+      success: function(data) {
+          alert(data.message);
+          loadConten('static/pages/CControl/complaint_control.html', 'main_body');
+      },
+      error: function(xhr, status, error) {
+          alert("Error: " + error);
+      }
+  });
+}

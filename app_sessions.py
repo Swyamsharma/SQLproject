@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
-from sqlQuery import authenticate, execute_query, logged_in_users, mysql_auth, mysql_library
-from students_api import students_api,st_db
+from sqlQuery import authenticate, execute_query, logged_in_users, mysql_auth, mysql_library, st_db
+from students_api import students_api
 from datetime import timedelta
 
 import ssl
@@ -98,6 +98,7 @@ def queryatt():
         return jsonify(error='Unauthorized'), 401
     
     query = request.form['query']
+    print(query)
     result = execute_query(query, st_db)
 
     # Convert timedelta objects to string representations
@@ -117,4 +118,5 @@ def get_username():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True,ssl_context=context)
+   # app.run(host="0.0.0.0", debug=True,ssl_context=context)
+   app.run(host="0.0.0.0", debug=True,port=2026)

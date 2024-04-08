@@ -27,7 +27,7 @@
   <link rel="shortcut icon" href="static/assets/images/favicon.png" />
 </head>
 
-<body class="sidebar-icon-only">
+<body class="">
   <div class="container-scroller">
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -39,14 +39,14 @@
         <li class="nav-item nav-category">
           <span class="nav-link">Navigation</span>
         </li>
-        <li class="nav-item menu-items">
+        <!-- <li class="nav-item menu-items">
           <a class="nav-link" href="#" onclick="loadContent('static/pages/dashboard/dashboard.html', 'main_body')">
             <span class="menu-icon">
               <i class="mdi mdi-speedometer"></i>
             </span>
             <span class="menu-title">Dashboard</span>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item menu-items">
           <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
             <span class="menu-icon">
@@ -75,6 +75,14 @@
           </a>
         </li>
         <li class="nav-item menu-items">
+          <a class="nav-link" href="#" id="complaint-control-link" onclick="loadConten('static/pages/CControl/complaint_control.html','main_body')">
+            <span class="menu-icon">
+              <i class="mdi mdi-language-c"></i>
+            </span>
+            <span class="menu-title">Complaint Control</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item menu-items">
           <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
             <span class="menu-icon">
               <i class="mdi mdi-laptop"></i>
@@ -148,7 +156,7 @@
             </span>
             <span class="menu-title">Documentation</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </nav>
 
@@ -301,10 +309,14 @@
   <script src="static/js/query.js"></script>
   <script src="static/js/transmission.js"></script>
   <!-- End custom js for this page -->
-  <!-- DataTables CSS -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
-  <!-- DataTables JS -->
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <!-- DataTables-->
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script> -->
+  <link href="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.0.3/af-2.7.0/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/cr-2.0.0/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.1/rg-1.5.0/rr-1.5.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/sl-2.0.0/sr-1.4.0/datatables.min.css" rel="stylesheet">
+ 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.0.3/af-2.7.0/b-3.0.1/b-colvis-3.0.1/b-html5-3.0.1/b-print-3.0.1/cr-2.0.0/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.1/rg-1.5.0/rr-1.5.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/sl-2.0.0/sr-1.4.0/datatables.min.js"></script>
   <style>
     /* Search box */
     .dataTables_wrapper .dataTables_filter input[type="search"] {

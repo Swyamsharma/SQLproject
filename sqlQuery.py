@@ -13,6 +13,13 @@ mysql_library = {
     'password': '222w',
     'database': 'library_db'
 }
+st_db = {
+    'host': 'localhost',
+    'user': 'shaurya',
+    'password': '222w',
+    'database': 'student_db'
+}
+last_attendance_time = {}
 logged_in_users = set()
 
 # Authenticate function to check user credentials against the database
