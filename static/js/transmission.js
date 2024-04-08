@@ -390,7 +390,7 @@ function createOpenAttendance() {
     if (response) {
       console.log(response);
       $('#subject-name').val('');
-      $('#attendance-result').html('<p class="text-success">'+response.result[0].result+'</p>');
+      $('#attendance-result').html('<p class="text-success">' + response.result[0].result + '</p>');
       alert(response.result[0].result);
       // Redirect or perform any other action as needed
     } else {
@@ -408,11 +408,11 @@ function removeAttendance() {
   var query = "SELECT clear_attendance_records_and_return_status(" + attendanceId + ") AS result";
 
   // Send the query to the server
-  $.post('/queryatt', { query: query }, function(response) {
-      if (response) {
-          $('#attendance-id').val('');
-          $('#aid-result').html('<p class="text-success">'+response.result[0].result+'</p>');
-      }
+  $.post('/queryatt', { query: query }, function (response) {
+    if (response) {
+      $('#attendance-id').val('');
+      $('#aid-result').html('<p class="text-success">' + response.result[0].result + '</p>');
+    }
   });
 }
 
@@ -523,9 +523,9 @@ function getStudentAttendance() {
 
   // Construct the SQL query
   var query = "SELECT sa.attendance_status, al.subject, al.attendance_date, al.start_time, al.end_time " +
-              "FROM student_attendance sa " +
-              "JOIN attendance_list al ON sa.attendance_id = al.attendance_id " +
-              "WHERE sa.student_id = " + studentId + " AND al.subject = '" + subjectName + "'";
+    "FROM student_attendance sa " +
+    "JOIN attendance_list al ON sa.attendance_id = al.attendance_id " +
+    "WHERE sa.student_id = " + studentId + " AND al.subject = '" + subjectName + "'";
 
   // Call the fetchatt function to display the results
   fetchatt("#query-result", query, "table table-bordered table-contextual");
@@ -534,16 +534,16 @@ function getStudentAttendance() {
 
 function loadConten(url, targetId) {
   $.ajax({
-      url: url,
-      type: 'GET',
-      success: function(data) {
-          $('#' + targetId).html('');
-          $('#' + targetId).html(data);
-          initializeComplaintControlPage();
-      },
-      error: function(xhr, status, error) {
-          console.error('Error loading content: ' + error);
-      }
+    url: url,
+    type: 'GET',
+    success: function (data) {
+      $('#' + targetId).html('');
+      $('#' + targetId).html(data);
+      initializeComplaintControlPage();
+    },
+    error: function (xhr, status, error) {
+      console.error('Error loading content: ' + error);
+    }
   });
 }
 
@@ -553,13 +553,13 @@ function initializeComplaintControlPage() {
   $(document).off('click', '.delete-btn');
 
   // Add event listeners for the update and delete buttons
-  $(document).on('click', '.update-btn', function() {
+  $(document).on('click', '.update-btn', function () {
     var complaintId = $(this).data("id");
     var status = $(`[data-id="${complaintId}"] option:selected`).val();
     updateComplaintStatus(complaintId, status);
   });
 
-  $(document).on('click', '.delete-btn', function() {
+  $(document).on('click', '.delete-btn', function () {
     var complaintId = $(this).data("id");
     deleteComplaint(complaintId);
   });
@@ -570,65 +570,65 @@ function initializeComplaintControlPage() {
 
 function loadComplaintData() {
   $.ajax({
-      url: "/get_complaint_data",
-      type: "GET",
-      success: function(data) {
-          var tableBody = $(".table tbody");
-          tableBody.empty();
+    url: "/get_complaint_data",
+    type: "GET",
+    success: function (data) {
+      var tableBody = $(".table tbody");
+      tableBody.empty();
 
-          $.each(data, function(index, complaint) {
-              var row = $("<tr></tr>");
-              row.append($("<td></td>").text(complaint.complaint_id));
-              
-              // Apply color class based on status
-              var titleClass = "";
-              switch(complaint.status) {
-                  case 'resolved':
-                      titleClass = 'text-success';
-                      break;
-                  case 'in progress':
-                      titleClass = 'text-warning';
-                      break;
-                  case 'open':
-                      titleClass = 'text-danger';
-                      break;
-                  default:
-                      titleClass = '';
-              }
-              
-              // Add title with color class
-              var titleTd = $("<td></td>").addClass(titleClass).text(complaint.complaint_title);
-              row.append(titleTd);
-              
-              // Split description into words and add <br> every 15 words
-              var words = complaint.complaint_description.split(/\s+/);
-              var description = "";
-              for (var i = 0; i < words.length; i++) {
-                  description += words[i] + " ";
-                  if ((i + 1) % 15 === 0) {
-                      description += "<br>";
-                  }
-              }
-              
-              row.append($("<td></td>").html(description));
-              row.append($("<td></td>").text(complaint.complaint_date));
-              row.append($("<td></td>").html(
-                  `<select class="form-control status-select" data-id="${complaint.complaint_id}">
+      $.each(data, function (index, complaint) {
+        var row = $("<tr></tr>");
+        row.append($("<td></td>").text(complaint.complaint_id));
+
+        // Apply color class based on status
+        var titleClass = "";
+        switch (complaint.status) {
+          case 'resolved':
+            titleClass = 'text-success';
+            break;
+          case 'in progress':
+            titleClass = 'text-warning';
+            break;
+          case 'open':
+            titleClass = 'text-danger';
+            break;
+          default:
+            titleClass = '';
+        }
+
+        // Add title with color class
+        var titleTd = $("<td></td>").addClass(titleClass).text(complaint.complaint_title);
+        row.append(titleTd);
+
+        // Split description into words and add <br> every 15 words
+        var words = complaint.complaint_description.split(/\s+/);
+        var description = "";
+        for (var i = 0; i < words.length; i++) {
+          description += words[i] + " ";
+          if ((i + 1) % 15 === 0) {
+            description += "<br>";
+          }
+        }
+
+        row.append($("<td></td>").html(description));
+        row.append($("<td></td>").text(complaint.complaint_date));
+        row.append($("<td></td>").html(
+          `<select class="form-control status-select" data-id="${complaint.complaint_id}">
                       <option ${complaint.status === 'open' ? 'selected' : ''}>open</option>
                       <option ${complaint.status === 'in progress' ? 'selected' : ''}>in progress</option>
                       <option ${complaint.status === 'resolved' ? 'selected' : ''}>resolved</option>
                   </select>`
-              ));
-              row.append($("<td></td>").html(
-                  `<button class="btn btn-primary update-btn" data-id="${complaint.complaint_id}">Update</button>
+        ));
+        row.append($("<td></td>").html(
+          `<button class="btn btn-primary update-btn" data-id="${complaint.complaint_id}">Update</button>
                   <button class="btn btn-danger delete-btn" data-id="${complaint.complaint_id}">Delete</button>`
-              ));
-              tableBody.append(row);
-          });
-      },
-      error: function(xhr, status, error) {
-          console.error("Error loading complaint data: " + error);
-      }
+        ));
+        tableBody.append(row);
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("Error loading complaint data: " + error);
+    }
   });
 }
 
@@ -636,31 +636,212 @@ function loadComplaintData() {
 
 function updateComplaintStatus(complaintId, status) {
   $.ajax({
-      url: "/update_complaint_status",
-      type: "POST",
-      data: JSON.stringify({ complaint_id: complaintId, status: status }),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function(data) {
-          alert(data.message);
-          loadConten('static/pages/CControl/complaint_control.html', 'main_body');
-      },
-      error: function(xhr, status, error) {
-          alert("Error: " + error);
-      }
+    url: "/update_complaint_status",
+    type: "POST",
+    data: JSON.stringify({ complaint_id: complaintId, status: status }),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function (data) {
+      alert(data.message);
+      loadConten('static/pages/CControl/complaint_control.html', 'main_body');
+    },
+    error: function (xhr, status, error) {
+      alert("Error: " + error);
+    }
   });
 }
 
 function deleteComplaint(complaintId) {
   $.ajax({
-      url: "/delete_complaint/" + complaintId,
-      type: "DELETE",
-      success: function(data) {
-          alert(data.message);
-          loadConten('static/pages/CControl/complaint_control.html', 'main_body');
-      },
-      error: function(xhr, status, error) {
-          alert("Error: " + error);
-      }
+    url: "/delete_complaint/" + complaintId,
+    type: "DELETE",
+    success: function (data) {
+      alert(data.message);
+      loadConten('static/pages/CControl/complaint_control.html', 'main_body');
+    },
+    error: function (xhr, status, error) {
+      alert("Error: " + error);
+    }
   });
+}
+function createNews() {
+  const title = document.getElementById('news-title').value;
+  const content = document.getElementById('news-content').value;
+
+  // Check if the input fields are not empty
+  if (!title || !content) {
+    $('#news-creation-result').html('<p class="text-danger">Please fill in all the fields.</p>');
+    return;
+  }
+
+  // Prepare the SQL query to call the function
+  const query = `SELECT add_news_func('${title}', '${content}') AS result`;
+
+  // Send the query to the server
+  $.post('/queryatt', { query: query }, function (response) {
+    const result = response.result;
+    if (result && result.length > 0) {
+      $('#news-title').val('');
+      $('#news-content').val('');
+      $('#news-creation-result').html(`<p class="${result[0].result.includes('successfully') ? 'text-success' : 'text-danger'}">${result[0].result}</p>`);
+      fetchatt('#query-result', 'SELECT * FROM news', 'table table-bordered table-contextual');
+    } else {
+      $('#news-creation-result').html('<p class="text-danger">Failed to create news.</p>');
+    }
+  });
+}
+
+function deleteNews() {
+  const newsId = document.getElementById('delete-news-id').value;
+
+  // Check if the input field is not empty
+  if (!newsId) {
+    $('#news-deletion-result').html('<p class="text-danger">Please enter the news ID.</p>');
+    return;
+  }
+
+  // Prepare the SQL query to call the function
+  const query = `SELECT remove_news_func(${newsId}) AS result`;
+
+  // Send the query to the server
+  $.post('/queryatt', { query: query }, function (response) {
+    const result = response.result;
+    if (result && result.length > 0) {
+      $('#delete-news-id').val('');
+      $('#news-deletion-result').html(`<p class="${result[0].result.includes('successfully') ? 'text-success' : 'text-danger'}">${result[0].result}</p>`);
+      fetchatt('#query-result', 'SELECT * FROM news', 'table table-bordered table-contextual');
+    } else {
+      $('#news-deletion-result').html('<p class="text-danger">Failed to delete news.</p>');
+    }
+  });
+}
+// Function to add a student report
+function addStudentReport() {
+  const studentId = document.getElementById('report-student-id').value;
+  const reportDate = document.getElementById('report-date').value;
+  const reportTitle = document.getElementById('report-title').value;
+  const reportContent = document.getElementById('report-content').value;
+
+  // Check if the input fields are not empty
+  if (!studentId || !reportDate || !reportTitle || !reportContent) {
+    $('#report-creation-result').html('<p class="text-danger">Please fill in all the fields.</p>');
+    return;
+  }
+
+  // Prepare the SQL query to call the function
+  const query = `SELECT add_student_report_func(${studentId}, '${reportDate}', '${reportTitle}', '${reportContent}') AS result`;
+
+  // Send the query to the server
+  $.post('/queryatt', { query: query }, function (response) {
+    const result = response.result;
+    if (result && result.length > 0) {
+      $('#report-student-id').val('');
+      $('#report-date').val('');
+      $('#report-title').val('');
+      $('#report-content').val('');
+      $('#report-creation-result').html(`<p class="${result[0].result.includes('successfully') ? 'text-success' : 'text-danger'}">${result[0].result}</p>`);
+    } else {
+      $('#report-creation-result').html('<p class="text-danger">Failed to add student report.</p>');
+    }
+  });
+}
+
+// Function to remove a student report
+function removeStudentReport() {
+  const reportId = document.getElementById('report-remove-id').value;
+
+  // Check if the input field is not empty
+  if (!reportId) {
+    $('#report-removal-result').html('<p class="text-danger">Please enter the report ID.</p>');
+    return;
+  }
+
+  // Prepare the SQL query to call the function
+  const query = `SELECT remove_student_report_func(${reportId}) AS result`;
+
+  // Send the query to the server
+  $.post('/queryatt', { query: query }, function (response) {
+    const result = response.result;
+    if (result && result.length > 0) {
+      $('#report-remove-id').val('');
+      $('#report-removal-result').html(`<p class="${result[0].result.includes('successfully') ? 'text-success' : 'text-danger'}">${result[0].result}</p>`);
+    } else {
+      $('#report-removal-result').html('<p class="text-danger">Failed to remove student report.</p>');
+    }
+  });
+}
+
+function dash() {
+  // Function to retrieve the number of books not available
+  function getNumberOfBooksNotAvailable() {
+    $.post('/querylib', { query: 'SELECT COUNT(*) AS count FROM books WHERE available = 0' }, function (response) {
+      $('#booksNotAvailableCount').text(response.result[0].count?response.result[0].count:'None');
+      if (response.result[0].count > 0) {
+        $('#booksNotAvailableIcon').removeClass('icon-box-success').addClass('icon-box-danger');
+        $('#booksNotAvailableIcon .mdi').removeClass('mdi-checkbox-marked').addClass('mdi-close');
+      } else {
+        $('#booksNotAvailableIcon').removeClass('icon-box-danger').addClass('icon-box-success');
+        $('#booksNotAvailableIcon .mdi').removeClass('mdi-close').addClass('mdi-arrow-top-right');
+      }
+    });
+  }
+
+  // Function to retrieve the number of open complaints
+  function getNumberOfOpenComplaints() {
+    $.post('/queryatt', { query: 'SELECT COUNT(*) AS count FROM complaints WHERE status = "open"' }, function (response) {
+      $('#openComplaintsCount').text(response.result[0].count?response.result[0].count:'None');
+      if (response.result[0].count > 0) {
+        $('#openComplaintsIcon').removeClass('icon-box-success').addClass('icon-box-danger');
+        $('#openComplaintsIcon .mdi').removeClass('mdi-checkbox-marked').addClass('mdi-close');
+      } else {
+        $('#openComplaintsIcon').removeClass('icon-box-danger').addClass('icon-box-success');
+        $('#openComplaintsIcon .mdi').removeClass('mdi-close').addClass('mdi-arrow-top-right');
+      }
+    });
+  }
+
+  // Call functions to retrieve data
+  getNumberOfBooksNotAvailable();
+  getNumberOfOpenComplaints();
+  // Function to retrieve the number of books borrowed and not returned with due date passed
+  function getBooksNotReturnedCount() {
+    $.post('/querylib', { query: 'SELECT COUNT(*) as count FROM borrowings WHERE returned_date IS NULL AND due_date < CURDATE();' }, function (response) {
+      console.log(response);
+      $('#booksNotReturnedCount').text(response.result[0].count?response.result[0].count:'None');
+      if (response.result[0].count > 0) {
+        $('#booksNotReturnedIcon').removeClass('icon-box-success').addClass('icon-box-danger');
+        $('#booksNotReturnedIcon .mdi').removeClass('mdi-checkbox-marked').addClass('mdi-close');
+      } else {
+        $('#booksNotReturnedIcon').removeClass('icon-box-danger').addClass('icon-box-success');
+        $('#booksNotReturnedIcon .mdi').removeClass('mdi-close').addClass('mdi-checkbox-marked');
+      }
+    });
+  }
+
+  // Call function to retrieve data
+  getBooksNotReturnedCount();
+  function getComplaintsInProgressCount() {
+    $.post('/queryatt', { query: 'SELECT COUNT(*) AS count FROM complaints WHERE status = "in progress"' })
+      .done(function (response) {
+        if (response && response.result && response.result.length > 0) {
+          $('#complaintsInProgressCount').text(response.result[0].count?response.result[0].count:'None');
+          if (response.result[0].count > 0) {
+            $('#complaintsInProgressIcon').removeClass('icon-box-success').addClass('icon-box-danger');
+            $('#complaintsInProgressIcon .mdi').removeClass('mdi-checkbox-marked').addClass('mdi-close');
+          } else {
+            $('#complaintsInProgressIcon').removeClass('icon-box-danger').addClass('icon-box-success');
+            $('#complaintsInProgressIcon .mdi').removeClass('mdi-close').addClass('mdi-checkbox-marked');
+          }
+        } else {
+          console.error('No data received or invalid response format.');
+        }
+      })
+      .fail(function (xhr, status, error) {
+        console.error('Error:', error);
+      });
+  }
+
+  // Call function to retrieve data
+  getComplaintsInProgressCount();
+
 }

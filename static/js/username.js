@@ -29,6 +29,7 @@ function loadContent(url, targetId) {
                 reloadSelect2();
                 reloadFile_Upload();
                 reloadTypeahead();
+                dash();
             } else {
                 console.error('Failed to load content: ' + xhr.status);
             }

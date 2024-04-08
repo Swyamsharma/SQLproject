@@ -1,0 +1,51 @@
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+            <h4 class="card-title">News Panel</h4>
+            <button type="button" class="btn btn-primary"
+                onclick="fetchatt('#query-result','select * from news','table table-bordered table-contextual')">Refresh News</button>
+            <div id="query-result" class="table-responsive">
+                <!-- Table will be created here -->
+
+            </div>
+            <!-- <div class="form-group">
+          <label for="query-text">Enter Query</label>
+          <input type="text" class="form-control" id="query-text" placeholder="Enter query">
+        </div> -->
+
+        </div>
+    </div>
+</div>
+<div class="row">
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create News</h4>
+            <div class="form-group">
+                <label for="news-title">Title</label>
+                <input type="text" class="form-control" id="news-title" placeholder="Enter News Title">
+            </div>
+            <div class="form-group">
+                <label for="news-content">Content</label>
+                <textarea class="form-control" id="news-content" rows="4" placeholder="Enter News Content"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="createNews()">Create News</button>
+            <div id="news-creation-result"></div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Delete News</h4>
+            <div class="form-group">
+                <label for="delete-news-id">News ID</label>
+                <input type="text" class="form-control" id="delete-news-id" placeholder="Enter News ID">
+            </div>
+            <button class="btn btn-danger" onclick="deleteNews()">Delete News</button>
+            <div id="news-deletion-result"></div>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,62 @@
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+            <h4 class="card-title">News Panel</h4>
+            <button type="button" class="btn btn-primary"
+                onclick="fetchatt('#query-result','select * from reports','table table-bordered table-contextual')">Refresh Reports</button>
+                <button type="button" class="btn btn-primary"
+                onclick="fetchatt('#query-result','select * from students','table table-bordered table-contextual')">Refresh Students</button>
+                <div id="query-result" class="table-responsive">
+                <!-- Table will be created here -->
+
+            </div>
+            <!-- <div class="form-group">
+          <label for="query-text">Enter Query</label>
+          <input type="text" class="form-control" id="query-text" placeholder="Enter query">
+        </div> -->
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Create Student Report</h4>
+            <div class="form-group">
+                <label for="report-student-id">Student ID</label>
+                <input type="text" class="form-control" id="report-student-id" placeholder="Enter Student ID">
+            </div>
+            <div class="form-group">
+                <label for="report-date">Date</label>
+                <input type="date" class="form-control" id="report-date">
+            </div>
+            <div class="form-group">
+                <label for="report-title">Title</label>
+                <input type="text" class="form-control" id="report-title" placeholder="Enter Report Title">
+            </div>
+            <div class="form-group">
+                <label for="report-content">Content</label>
+                <textarea class="form-control" id="report-content" rows="4" placeholder="Enter Report Content"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="addStudentReport()">Create Report</button>
+            <div id="report-creation-result"></div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Delete Student Report</h4>
+            <div class="form-group">
+                <label for="report-remove-id">Report ID</label>
+                <input type="text" class="form-control" id="report-remove-id" placeholder="Enter Report ID">
+            </div>
+            <button class="btn btn-danger" onclick="removeStudentReport()">Delete Report</button>
+            <div id="report-removal-result"></div>
+        </div>
+    </div>
+</div>
+</div>

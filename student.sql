@@ -246,3 +246,97 @@ END;
 
 
 select clear_attendance_records_and_return_status(27);
+
+USE student_db;
+DELIMITER //
+
+CREATE FUNCTION add_news_func(news_title VARCHAR(255), news_content TEXT)
+RETURNS VARCHAR(255)
+BEGIN
+    DECLARE add_result VARCHAR(255);
+
+    -- Insert news record into the table
+    INSERT INTO news (title, content, posted_by) VALUES (news_title, news_content, 'Admin');
+
+    -- Check if the INSERT was successful
+    IF ROW_COUNT() > 0 THEN
+        SET add_result = 'News added successfully.';
+    ELSE
+        SET add_result = 'Failed to add news.';
+    END IF;
+
+    RETURN add_result;
+END //
+
+CREATE FUNCTION remove_news_func(news_id_param INT)
+RETURNS VARCHAR(255)
+BEGIN
+    DECLARE remove_result VARCHAR(255);
+
+    -- Delete news record from the table
+    DELETE FROM news WHERE news_id = news_id_param;
+
+    -- Check if any rows were affected
+    IF ROW_COUNT() > 0 THEN
+        SET remove_result = CONCAT('News with ID ', CAST(news_id_param AS CHAR), ' removed successfully.');
+    ELSE
+        SET remove_result = CONCAT('No news found with ID ', CAST(news_id_param AS CHAR), '.');
+    END IF;
+
+    RETURN remove_result;
+END //
+
+DELIMITER ;
+-- Create a function to add a student report
+-- Create a function to add a student report
+CREATE FUNCTION add_student_report_func(
+    student_id_param INT,
+    report_date_param DATE,
+    report_title_param VARCHAR(100),
+    report_content_param TEXT
+) RETURNS VARCHAR(255)
+BEGIN
+    DECLARE result_msg VARCHAR(255);
+
+    -- Check if the student exists
+    DECLARE student_exists INT;
+    SELECT COUNT(*) INTO student_exists FROM students WHERE student_id = student_id_param;
+
+    IF student_exists = 0 THEN
+        SET result_msg = 'Student not found.';
+        RETURN result_msg;
+    END IF;
+
+    -- Attempt to insert the student reportv
+    INSERT INTO reports (student_id, report_date, report_title, report_content)
+    VALUES (student_id_param, report_date_param, report_title_param, report_content_param);
+
+    -- Check if the insertion was successful
+    IF ROW_COUNT() > 0 THEN
+        SET result_msg = 'Student report added successfully.';
+    ELSE
+        SET result_msg = 'Failed to add student report.';
+    END IF;
+
+    RETURN result_msg;
+END;
+
+
+-- Create a function to remove a student report
+CREATE FUNCTION remove_student_report_func(report_id_param INT) RETURNS VARCHAR(255)
+BEGIN
+    DECLARE result_msg VARCHAR(255);
+
+    -- Attempt to delete the student report
+    DELETE FROM reports WHERE report_id = report_id_param;
+
+    -- Check if the deletion was successful
+    IF ROW_COUNT() > 0 THEN
+        SET result_msg = 'Student report removed successfully.';
+    ELSE
+        SET result_msg = 'Failed to remove student report.';
+    END IF;
+
+    RETURN result_msg;
+END;
+SELECT add_student_report_func(66, '2000-11-11', '234', '323') AS result

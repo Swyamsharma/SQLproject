@@ -71,15 +71,31 @@
             <span class="menu-icon">
               <i class="mdi mdi-chart-bar"></i>
             </span>
-            <span class="menu-title">Attendance Control</span>
+            <span class="menu-title">Attendance</span>
           </a>
         </li>
         <li class="nav-item menu-items">
           <a class="nav-link" href="#" id="complaint-control-link" onclick="loadConten('static/pages/CControl/complaint_control.html','main_body')">
             <span class="menu-icon">
-              <i class="mdi mdi-language-c"></i>
+              <i class="mdi mdi-alert"></i>
             </span>
-            <span class="menu-title">Complaint Control</span>
+            <span class="menu-title">Complaint</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="#" onclick="loadContent('static/pages/news/news.html','main_body')">
+            <span class="menu-icon">
+              <i class="mdi mdi-newspaper"></i>
+            </span>
+            <span class="menu-title">News</span>
+          </a>
+        </li>
+        <li class="nav-item menu-items">
+          <a class="nav-link" href="#" onclick="loadContent('static/pages/reports/reports.html','main_body')">
+            <span class="menu-icon">
+              <i class=" mdi mdi-file-chart"></i>
+            </span>
+            <span class="menu-title">Reports</span>
           </a>
         </li>
         <!-- <li class="nav-item menu-items">
@@ -264,7 +280,7 @@
         <div id="main_body" class="content-wrapper ">
           <script>
             window.onload = function () {
-              loadContent('static/pages/dashboard/dashboard.html', 'main_body');
+              loadContent('static/pages/dash/dash.html', 'main_body');
             };
           </script>
         </div>

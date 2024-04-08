@@ -489,3 +489,6 @@ DELIMITER ;
 
 SELECT add_member('JohnDoe', 'john.de@newmail.com');
 SELECT remove_member(1);
+
+use library_db;
+SELECT COUNT(*) AS num_borrowed_books FROM borrowings WHERE returned_date IS NULL AND due_date < CURDATE();
