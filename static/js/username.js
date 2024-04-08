@@ -37,7 +37,25 @@ function loadContent(url, targetId) {
     };
     xhr.open('GET', url, true);
     xhr.send();
+    setActiveNavItem(url);
 }
+function setActiveNavItem(url) {
+  // Reset active state for all nav items
+  var navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(function(item) {
+      item.classList.remove('active');
+  });
+
+  // Determine which nav item corresponds to the loaded content URL
+  var navLinks = document.querySelectorAll('.nav-link');
+  navLinks.forEach(function(link) {
+      var onClickAttribute = link.getAttribute('onclick');
+      if (onClickAttribute && onClickAttribute.includes(url)) {
+          link.parentElement.classList.add('active');
+      }
+  });
+}
+
 
 function updateContent(x,y) {
   // Fetch data from the server

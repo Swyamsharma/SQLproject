@@ -545,6 +545,7 @@ function loadConten(url, targetId) {
       console.error('Error loading content: ' + error);
     }
   });
+  setActiveNavItem(url);
 }
 
 function initializeComplaintControlPage() {
