@@ -30,6 +30,8 @@ function loadContent(url, targetId) {
                 reloadFile_Upload();
                 reloadTypeahead();
                 dash();
+                if(url == 'static/pages/CControl/complaint_control.html')
+                initializeComplaintControlPage();
             } else {
                 console.error('Failed to load content: ' + xhr.status);
             }

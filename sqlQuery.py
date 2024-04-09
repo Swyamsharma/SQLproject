@@ -27,7 +27,7 @@ def authenticate(username, password):
     try:
         db_connection = mysql.connector.connect(**mysql_auth)
         cursor = db_connection.cursor()
-        query = "SELECT * FROM users WHERE username = %s AND password = %s"
+        query = "SELECT * FROM users WHERE BINARY username = %s AND BINARY password = %s"
         cursor.execute(query, (username, password))
         user = cursor.fetchone()
         cursor.close()
