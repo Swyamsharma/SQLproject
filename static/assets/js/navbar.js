@@ -53,56 +53,71 @@ function handleKeyPress(event) {
         searchContent(event.target);
     }
 }
+function showSearchResults(searchResults) {
+  const searchResultsContainer = document.getElementById('search-results');
+  searchResultsContainer.innerHTML = '';
+
+  if (searchResults.length > 0) {
+    searchResultsContainer.classList.add('search-results-show');
+
+    searchResults.forEach(result => {
+      const resultElement = document.createElement('div');
+      resultElement.classList.add('search-result');
+
+      const iconElement = document.createElement('i');
+      iconElement.classList.add('mdi', 'mdi-file-document');
+
+      const fileLabelSpan = document.createElement('span');
+      fileLabelSpan.textContent = result.label;
+
+      resultElement.appendChild(iconElement);
+      resultElement.appendChild(fileLabelSpan);
+
+      resultElement.addEventListener('click', () => {
+        loadContent(result.filePath, 'main_body');
+        hideSearchResults();
+      });
+
+      searchResultsContainer.appendChild(resultElement);
+    });
+
+    searchResultsContainer.style.display = 'block';
+  } else {
+    hideSearchResults();
+  }
+}
+
+function hideSearchResults() {
+  const searchResultsContainer = document.getElementById('search-results');
+  searchResultsContainer.classList.remove('search-results-show');
+  setTimeout(() => {
+    searchResultsContainer.style.display = 'none';
+  }, 300);
+}
 
 function searchContent(searchInputElement) {
-    console.log("searching");
+  const searchTerm = searchInputElement.value.toLowerCase().trim();
+  const searchResults = [];
 
-    const searchTerm = searchInputElement.value.toLowerCase();
-    const searchResults = [];
+  for (const filePath in fileContents) {
+    const fileContent = fileContents[filePath].toLowerCase();
+    const fileLabel = fileLabels[filePath].toLowerCase();
 
-    for (const filePath in fileContents) {
-        const fileContent = fileContents[filePath];
-        if (fileContent.toLowerCase().includes(searchTerm)) {
-            searchResults.push({ filePath, label: fileLabels[filePath], content: fileContent });
-        }
-    }
-
-    const searchResultsContainer = document.getElementById('search-results');
-    console.log(searchResultsContainer);
-
-    if (searchResultsContainer) {
-        searchResultsContainer.innerHTML = '';
-
-        if (searchResults.length > 0) {
-            searchResults.forEach(result => {
-                const resultElement = document.createElement('div');
-                resultElement.classList.add('search-result');
-                
-                // Create icon element
-                const iconElement = document.createElement('i');
-                iconElement.classList.add('mdi', 'mdi-file-document');
-                
-                // Create span for displaying file label
-                const fileLabelSpan = document.createElement('span');
-                fileLabelSpan.textContent = result.label;
-                
-                // Append icon and file label span to result element
-                resultElement.appendChild(iconElement);
-                resultElement.appendChild(fileLabelSpan);
-                
-                resultElement.addEventListener('click', () => {
-                    loadContent(result.filePath, 'main_body');
-                    searchResultsContainer.style.display = 'none'; // Hide search results after click
-                });
-
-                searchResultsContainer.appendChild(resultElement);
-            });
-
-            searchResultsContainer.style.display = 'block'; // Show search results if there are results
-        } else {
-            searchResultsContainer.style.display = 'none'; // Hide search results if no results found
-        }
+    if (fileContent.includes(searchTerm) || fileLabel.includes(searchTerm)) {
+      searchResults.push({ filePath, label: fileLabels[filePath], content: fileContents[filePath] });
     } else {
-        console.error('search-results container not found');
+      const words = searchTerm.split(/\s+/);
+      if (words.every(word => fileContent.includes(word) || fileLabel.includes(word))) {
+        searchResults.push({ filePath, label: fileLabels[filePath], content: fileContents[filePath] });
+      }
     }
+  }
+
+  searchResults.sort((a, b) => {
+    const aMatches = (a.content.match(new RegExp(searchTerm, 'g')) || []).length + (a.label.match(new RegExp(searchTerm, 'g')) || []).length;
+    const bMatches = (b.content.match(new RegExp(searchTerm, 'g')) || []).length + (b.label.match(new RegExp(searchTerm, 'g')) || []).length;
+    return bMatches - aMatches;
+  });
+
+  showSearchResults(searchResults);
 }
