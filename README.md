@@ -1,16 +1,5 @@
 <!--- BEGIN: FILEPATH: /home/dexter/Desktop/SQLproject/README.md -->
 
----
-<a href="https://1d79-14-139-197-66.ngrok-free.app/">VISIT THE WEBSITE PREVIEW(INTERNET)</a>
-
-sample student login credentials
-username : student1
-password : student123
-
-<br><br>
-<a href="http://172.16.0.10:2026">VISIT THE WEBSITE PREVIEW(IIIT G Intranet, if not accessible on internet)</a>
-
-
 ## College Management System
 
 The College Management System is a database management system project that aims to streamline various administrative tasks in a college or educational institution. It provides a centralized platform for managing student records, faculty information, course details, and other relevant data.
